@@ -1,0 +1,101 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest
+import piplite
+await piplite.install(['numpy'],['pandas'])
+await piplite.install(['seaborn'])
+import pandas as pd
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import scipy.stats
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from js import fetch
+import io
+
+URL = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ST0151EN-SkillsNetwork/labs/boston_housing.csv'
+resp = await fetch(URL)
+boston_url = io.BytesIO((await resp.arrayBuffer()).to_py())
+
+###ESTADISTICAS DESCRIPTIVAS
+VM = sns.boxplot(x='MEDV', data=boston_df).set_title("Boxplot del Valor medio de las viviendas ocupadas por sus propietarios (MEDV)")
+
+ax = sns.catplot(x='CHAS',kind='count', data=boston_df)
+plt.title('variable ficticia del río Charles (1 si el tracto linda con el río; 0 en caso contrario)')
+plt.xlabel('CHAS')
+plt.ylabel('Frequency')
+plt.show()
+boston_df.loc[(boston_df['AGE'] <= 35), 'age_group'] = '35 years and younger'
+boston_df.loc[(boston_df['AGE'] > 35) & (boston_df['AGE'] < 70), 'age_group'] = 'between 35 and 70 years'
+boston_df.loc[(boston_df['AGE'] >= 70), 'age_group'] = '70 years and older'
+
+ax = sns.boxplot(x='age_group', y='MEDV', data=boston_df)
+plt.title('MEDV POR GRUPO DE EDAD')
+plt.ylabel('MEDV')
+plt.show()
+
+ax = sns.scatterplot(x='NOX', y='INDUS', data=boston_df)
+plt.title('concentraciones de óxido nítrico VS. la proporción de acres comerciales no minoristas')
+plt.xlabel('Concentraciones de óxido nítrico (NOX)')
+plt.ylabel('Proporción de acres comerciales no minoristasn (INDUS)')
+plt.show()
+
+scipy.stats.pearsonr(boston_df['NOX'], boston_df['INDUS'])
+
+plt.hist(boston_df['PTRATIO'])
+plt.title("Alumnos por profesor")
+plt.xlabel('Alumnos por profesor')
+plt.ylabel('Frecuencia')
+plt.show()
+
+scipy.stats.levene(boston_df[boston_df['CHAS'] == 0]['MEDV'], boston_df[boston_df['CHAS'] == 1]['MEDV'], center='mean')
+
+scipy.stats.levene(boston_df[boston_df['CHAS'] == 0]['MEDV'], boston_df[boston_df['CHAS'] == 1]['MEDV'], center='median') 
+scipy.stats.ttest_ind(boston_df[boston_df['CHAS'] == 0]['MEDV'], boston_df[boston_df['CHAS'] == 1]['MEDV'], equal_var=True) 
+
+X = boston_df['DIS']
+y = boston_df['MEDV']
+
+X = sm.add_constant(X)
+
+model = sm.OLS(y, X).fit()
+predictions = model.predict(X)
+
+model.summary()
